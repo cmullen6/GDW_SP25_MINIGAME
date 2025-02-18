@@ -12,6 +12,9 @@ public class CharacterController : MonoBehaviour
     public float projectileSpeed = 10f; // Speed of the projectile
     public float maxProjectileDistance = 15f; // Maximum distance before despawning
 
+    public float minX = -10f;  // Minimum x position
+    public float maxX = 10f;   // Maximum x position
+
     void Start()
     {
         // Get the SpriteRenderer component to flip the sprite
@@ -39,6 +42,10 @@ public class CharacterController : MonoBehaviour
 
         // Move the player based on input
         transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+
+        // Clamp the player's position within the minX and maxX boundaries
+        float clampedX = Mathf.Clamp(transform.position.x, minX, maxX);
+        transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
 
         // Shooting the projectile
         if (Input.GetKeyDown(KeyCode.Space))  // Assuming Space bar to shoot
@@ -78,4 +85,3 @@ public class CharacterController : MonoBehaviour
         Destroy(projectile, maxProjectileDistance / projectileSpeed); // Destroy after reaching max distance
     }
 }
-
